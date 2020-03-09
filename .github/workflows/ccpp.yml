@@ -12,7 +12,8 @@ jobs:
     - name: install avr-gcc, avrdude
       run: |
         sudo apt-get update
-        sudo apt-get install avr-gcc
+        sudo apt-get upgrade all
+        sudo apt-get install gcc-avr binutils-avr avr-libc
         sudo apt-get install avrdude
 
     - name: make

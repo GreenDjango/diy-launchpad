@@ -5,9 +5,9 @@
 **DIY launchpad with Atmega328p-AU**
 
 ```
-avr-gcc -Os -DF_CPU=8000000 -mmcu=attiny85 -c led_flash.c
-avr-gcc -DF_CPU=8000000 -mmcu=attiny85 -o led_flash.elf led_flash.o
-avr-objcopy -O ihex led_flash.elf led_flash.hex
+avr-gcc -Os -DF_CPU=8000000 -mmcu=atmega328p -c src/main.c
+avr-gcc -DF_CPU=8000000 -mmcu=atmega328p -o blink.elf main.o
+avr-objcopy -O ihex blink.elf blink.hex
 ```
 
 [1]: https://img.shields.io/github/v/release/GreenDjango/diy-launchpad?maxAge=600
