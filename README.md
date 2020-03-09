@@ -17,9 +17,9 @@ sudo avrdude -c usbasp -p atmega328p -U flash:w:name.hex
 ```
 
 [1]: https://img.shields.io/github/v/release/GreenDjango/diy-launchpad?maxAge=600
-[2]: http://commonmark.org "GitHub release (latest by date)"
+[2]: https://github.com/GreenDjango/diy-launchpad/releases "GitHub release (latest by date)"
 [3]: https://img.shields.io/github/workflow/status/GreenDjango/diy-launchpad/GCC-CI?maxAge=600
-[4]: http://commonmark.org "GitHub Workflow Status"
+[4]: https://github.com/GreenDjango/diy-launchpad/actions "GitHub Workflow Status"
 [5]: https://img.shields.io/github/license/GreenDjango/diy-launchpad?maxAge=2592000
 [6]: LICENSE "GitHub license"
 [20]: https://img.shields.io/github/repo-size/GreenDjango/diy-launchpad?maxAge=600 "GitHub repo size"
