@@ -4,15 +4,21 @@
 
 **DIY launchpad with Atmega328p-AU**
 
+---
+
+### Build
+
 ```
 avr-gcc -Os -DF_CPU=8000000 -mmcu=atmega328p -c src/main.c
-avr-gcc -DF_CPU=8000000 -mmcu=atmega328p -o blink.elf main.o
-avr-objcopy -O ihex blink.elf blink.hex
+avr-gcc -DF_CPU=8000000 -mmcu=atmega328p -o name.elf main.o
+avr-objcopy -O ihex name.elf name.hex
+
+sudo avrdude -c usbasp -p atmega328p -U flash:w:name.hex
 ```
 
 [1]: https://img.shields.io/github/v/release/GreenDjango/diy-launchpad?maxAge=600
 [2]: http://commonmark.org "GitHub release (latest by date)"
-[3]: https://img.shields.io/github/workflow/status/GreenDjango/diy-launchpad/Node.js%20CI?maxAge=600
+[3]: https://img.shields.io/github/workflow/status/GreenDjango/diy-launchpad/GCC-CI?maxAge=600
 [4]: http://commonmark.org "GitHub Workflow Status"
 [5]: https://img.shields.io/github/license/GreenDjango/diy-launchpad?maxAge=2592000
 [6]: LICENSE "GitHub license"
