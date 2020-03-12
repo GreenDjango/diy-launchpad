@@ -1,19 +1,26 @@
-#include <stdint.h>
-#include <stddef.h>
-#include <util/delay.h>
 #include <avr/io.h>
+#include <stddef.h>
+#include <stdint.h>
+#include <util/delay.h>
 
 int main(void)
 {
-	// Set pin 13 to output (On-chip LED)
-	DDRB = 0b00100000;	// output
-	PORTB = 0b00000000;	// Set LED to low
+    // Set pin 13 to output (On-chip LED)
+    DDRB = 0x20; // output
+    PORTB = 0x20; // Set LED to low
 
-	// Toggle lopp.
-	while (1)
-	{
-		PORTB = PORTB ^ 0b00100000;
-		_delay_ms(1000);
-	}
-	return (0);
+    //pC5:0 = ANALOG
+    //pD7:0 || pB7:0 = DIGITAL
+    //pC6 = REST
+    //pD0 = RX
+    //pD0 = TT
+
+    // Toggle lopp.
+    while (1) {
+        //__asm__ volatile("sleep");
+        PORTB = PORTB ^ 0b00100000;
+        _delay_ms(500);
+    }
+
+    return (0);
 }

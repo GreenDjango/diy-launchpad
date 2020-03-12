@@ -13,7 +13,7 @@
 ##	Static variables
 ##--
 COMPILER	:= avr-
-CC		:= $(COMPILER)gcc
+CC			:= $(COMPILER)gcc
 OBJCOPY		:= $(COMPILER)objcopy
 OBJDUMP		:= $(COMPILER)objdump
 FLASHER		:= avrdude
@@ -24,25 +24,23 @@ DEBUG 		:= debug
 NAME 		:= paddiy
 BIN 		:= $(NAME).hex
 MMAP		:= $(DEBUG)/$(NAME).map
-ELF		:= $(DEBUG)/$(NAME).elf
+ELF			:= $(DEBUG)/$(NAME).elf
 
-LIB		:= -lgcc
+LIB			:= -lgcc
 HEADER 		:= -Iinclude
 LDFLAG		:= -Wl,-M -T $(NAME).ld
-CFLAGS		:= -Werror -Wall -W -Wextra -std=c18 \
+CFLAGS		:= -Werror -Wall -W -Wextra -std=c11 -pedantic \
 			-Wno-unused-const-variable -Wno-unused-function \
 			-Wno-unused-variable -Wno-unused-but-set-variable \
 			-Wno-unused-parameter
 EXTRAFLAGS	:= -Os -mmcu=atmega328p -ffreestanding \
 			-nostdlib -D F_CPU=8000000
 
-red		:= \033[1;31m
+red			:= \033[1;31m
 green		:= \033[1;32m
 blue		:= \033[1;34m
 white		:= \033[1;37m
 nocolor		:= \033[1;0m
-
-
 
 
 ##--
@@ -54,13 +52,11 @@ define n
 endef
 
 
-
-
 ##---
 ##	Automated variables
 ##---
 # Get all directory
-SRC		:=
+SRC			:=
 DIRECTORY	:= $(shell find src -not -path "*/\.*" -type d)
 # Get all source files
 $(foreach path,$(DIRECTORY),$(eval		\
@@ -69,9 +65,7 @@ $(foreach path,$(DIRECTORY),$(eval		\
 	SRC	+= $$(wildcard $(path)/*.s)	$n\
 ))
 # Geneate all object files
-OBJ	:= $(patsubst src_%,$(BUILD)/%.o,$(subst /,_,$(basename $(SRC))))
-
-
+OBJ			:= $(patsubst src_%,$(BUILD)/%.o,$(subst /,_,$(basename $(SRC))))
 
 
 ##---
@@ -89,8 +83,6 @@ $(BUILD) $(DEBUG):
 
 flash: $(BIN)
 	sudo $(FLASHER) -c usbasp -p atmega328p -U flash:w:$^
-
-
 
 
 ##---
@@ -111,7 +103,6 @@ elf:
 	@ $(OBJDUMP) -h $(DEBUG)/$(NAME).elf
 
 
-
 ##---
 ##	  Automated rules
 ##---
@@ -127,7 +118,6 @@ $(foreach source,$(SRC),$(eval		\
 )
 
 
-
 ##---
 ##	Cleaning rules
 ##---
@@ -139,8 +129,6 @@ fclean: clean
 	rm -f $(BIN)
 
 re: fclean all
-
-
 
 
 .PHONY: all flash
