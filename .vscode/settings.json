@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "delay.h": "c",
+        "io.h": "c",
+        "sfr_defs.h": "c",
+        "stdint.h": "c",
+        "stddef.h": "c"
+    },
+    "C_Cpp.default.defines": [
+        "__AVR_ATmega328P__",
+        "${default}",
+    ],
+}
