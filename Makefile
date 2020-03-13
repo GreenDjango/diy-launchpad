@@ -13,34 +13,36 @@
 ##	Static variables
 ##--
 COMPILER	:= avr-
-CC			:= $(COMPILER)gcc
+CC		:= $(COMPILER)gcc
 OBJCOPY		:= $(COMPILER)objcopy
 OBJDUMP		:= $(COMPILER)objdump
 FLASHER		:= avrdude
 
-BUILD		:= build
-DEBUG 		:= debug
+BUILD_DIR	:= build
+DEBUG_DIR	:= debug
 
 NAME 		:= paddiy
 BIN 		:= $(NAME).hex
-MMAP		:= $(DEBUG)/$(NAME).map
-ELF			:= $(DEBUG)/$(NAME).elf
+MMAP		:= $(DEBUG_DIR)/$(NAME).map
+ELF		:= $(DEBUG_DIR)/$(NAME).elf
 
-LIB			:= -lgcc
+LIB		:= -lgcc
 HEADER 		:= -Iinclude
 LDFLAG		:= -Wl,-M -T $(NAME).ld
-CFLAGS		:= -Werror -Wall -W -Wextra -std=c11 -pedantic \
+CFLAGS		:= -Werror -Wall -W -Wextra -std=c11 \
 			-Wno-unused-const-variable -Wno-unused-function \
 			-Wno-unused-variable -Wno-unused-but-set-variable \
 			-Wno-unused-parameter
 EXTRAFLAGS	:= -Os -mmcu=atmega328p -ffreestanding \
 			-nostdlib -D F_CPU=8000000
 
-red			:= \033[1;31m
+red		:= \033[1;31m
 green		:= \033[1;32m
 blue		:= \033[1;34m
 white		:= \033[1;37m
 nocolor		:= \033[1;0m
+
+
 
 
 ##--
@@ -52,11 +54,13 @@ define n
 endef
 
 
+
+
 ##---
 ##	Automated variables
 ##---
 # Get all directory
-SRC			:=
+SRC		:=
 DIRECTORY	:= $(shell find src -not -path "*/\.*" -type d)
 # Get all source files
 $(foreach path,$(DIRECTORY),$(eval		\
@@ -65,24 +69,28 @@ $(foreach path,$(DIRECTORY),$(eval		\
 	SRC	+= $$(wildcard $(path)/*.s)	$n\
 ))
 # Geneate all object files
-OBJ			:= $(patsubst src_%,$(BUILD)/%.o,$(subst /,_,$(basename $(SRC))))
+OBJ	:= $(patsubst src_%,$(BUILD_DIR)/%.o,$(subst /,_,$(basename $(SRC))))
+
+
 
 
 ##---
 ##	General rules
 ##---
-all: | $(BUILD) $(DEBUG) $(BIN)
+all: $(BIN)
 
-$(BIN): $(OBJ)
+$(BIN): $(OBJ) | $(DEBUG_DIR)
 	$(CC) $(LDFLAG) $(EXTRAFLAGS) $(OBJ) -o $(ELF) > $(MMAP)
 	$(OBJCOPY) -O ihex $(ELF) $@
 
-$(BUILD) $(DEBUG):
+$(BUILD_DIR) $(DEBUG_DIR):
 	@ printf "Create $(blue)$@$(nocolor) directory\n"
 	@ mkdir -p $@
 
 flash: $(BIN)
 	sudo $(FLASHER) -c usbasp -p atmega328p -U flash:w:$^
+
+
 
 
 ##---
@@ -103,11 +111,12 @@ elf:
 	@ $(OBJDUMP) -h $(DEBUG)/$(NAME).elf
 
 
+
 ##---
 ##	  Automated rules
 ##---
 define rule-src
-$(patsubst src_%,$(BUILD)/%.o,$(subst /,_,$(basename $1))): $1
+$(patsubst src_%,$(BUILD_DIR)/%.o,$(subst /,_,$(basename $1))): $1 | $(BUILD_DIR)
 	@ printf "compiling $(white)$$<$(nocolor)..."
 	@ $(CC) $(CFLAGS) $(EXTRAFLAGS) -o $$@ -c $$< $(HEADER) -lgcc
 	@ printf "$(green)[ok]$(nocolor)\n"
@@ -118,12 +127,13 @@ $(foreach source,$(SRC),$(eval		\
 )
 
 
+
 ##---
 ##	Cleaning rules
 ##---
 clean:
-	rm -rf $(BUILD)
-	rm -rf $(DEBUG)
+	rm -rf $(BUILD_DIR)
+	rm -rf $(DEBUG_DIR)
 
 fclean: clean
 	rm -f $(BIN)
@@ -131,6 +141,8 @@ fclean: clean
 re: fclean all
 
 
+
+
 .PHONY: all flash
-.PHONY: debug asm map elf
+.PHONY: help asm map elf
 .PHONY: clean fclean re

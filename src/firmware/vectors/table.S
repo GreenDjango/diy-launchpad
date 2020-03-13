@@ -1,7 +1,9 @@
+#include <avr/io.h>
 .section ".vector", "x", @progbits
 
 .extern	_start
 .extern	__bad_interrupt
+.extern	__timer2_pre
 
 .align 2
 /*
@@ -20,7 +22,7 @@ __vector:
 	jmp	__bad_interrupt		; Watchdog time out
 	jmp	__bad_interrupt		; Timer 2 compare match a
 	jmp	__bad_interrupt		; Timer 2 compare match b
-	jmp	__bad_interrupt		; Timer 2 overflow
+	jmp	__timer2_pre		; Timer 2 overflow
 	jmp	__bad_interrupt		; Timer 1 capture event
 	jmp	__bad_interrupt		; Timer 1 compare match a
 	jmp	__bad_interrupt		; Timer 1 compare match b

@@ -32,7 +32,7 @@ _start:
 	** Block global interrupt and clear other bits
 	*/
 	eor	r1, r1				; wipe r1
-	out 	0x3f, r1 			; SREG = 0x00
+	sts 	SREG, r1 			; SREG = 0x00
 
 
 	/*
@@ -43,8 +43,8 @@ _start:
 	*/
 	ldi	r26, 0xff			; Stack start address (LSB)
 	ldi	r27, 0x08			; Stack start address (MSB)
-	out 	0x3d, r26			; SPL = LSB stack address part
-	out 	0x3e, r27			; SPH = MSB stack address part
+	sts 	SPL, r26			; SPL = LSB stack address part
+	sts 	SPH, r27			; SPH = MSB stack address part
 
 
 	/*
