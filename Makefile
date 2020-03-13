@@ -7,13 +7,11 @@
 ## ---
 
 
-
-
 ##--
 ##	Static variables
 ##--
 COMPILER	:= avr-
-CC		:= $(COMPILER)gcc
+CC			:= $(COMPILER)gcc
 OBJCOPY		:= $(COMPILER)objcopy
 OBJDUMP		:= $(COMPILER)objdump
 FLASHER		:= avrdude
@@ -24,9 +22,9 @@ DEBUG_DIR	:= debug
 NAME 		:= paddiy
 BIN 		:= $(NAME).hex
 MMAP		:= $(DEBUG_DIR)/$(NAME).map
-ELF		:= $(DEBUG_DIR)/$(NAME).elf
+ELF			:= $(DEBUG_DIR)/$(NAME).elf
 
-LIB		:= -lgcc
+LIB			:= -lgcc
 HEADER 		:= -Iinclude
 LDFLAG		:= -Wl,-M -T $(NAME).ld
 CFLAGS		:= -Werror -Wall -W -Wextra -std=c11 \
@@ -36,13 +34,11 @@ CFLAGS		:= -Werror -Wall -W -Wextra -std=c11 \
 EXTRAFLAGS	:= -Os -mmcu=atmega328p -ffreestanding \
 			-nostdlib -D F_CPU=8000000
 
-red		:= \033[1;31m
+red			:= \033[1;31m
 green		:= \033[1;32m
 blue		:= \033[1;34m
 white		:= \033[1;37m
 nocolor		:= \033[1;0m
-
-
 
 
 ##--
@@ -52,8 +48,6 @@ define n
 # Force newline character
 
 endef
-
-
 
 
 ##---
@@ -72,8 +66,6 @@ $(foreach path,$(DIRECTORY),$(eval		\
 OBJ	:= $(patsubst src_%,$(BUILD_DIR)/%.o,$(subst /,_,$(basename $(SRC))))
 
 
-
-
 ##---
 ##	General rules
 ##---
@@ -89,8 +81,6 @@ $(BUILD_DIR) $(DEBUG_DIR):
 
 flash: $(BIN)
 	sudo $(FLASHER) -c usbasp -p atmega328p -U flash:w:$^
-
-
 
 
 ##---
@@ -111,7 +101,6 @@ elf:
 	@ $(OBJDUMP) -h $(DEBUG)/$(NAME).elf
 
 
-
 ##---
 ##	  Automated rules
 ##---
@@ -127,7 +116,6 @@ $(foreach source,$(SRC),$(eval		\
 )
 
 
-
 ##---
 ##	Cleaning rules
 ##---
@@ -139,8 +127,6 @@ fclean: clean
 	rm -f $(BIN)
 
 re: fclean all
-
-
 
 
 .PHONY: all flash
